@@ -1,0 +1,17 @@
+meta {
+  name: Criar Atleta
+  type: http
+  seq: 1
+}
+
+post {
+  url: http://localhost:3333/api/athletes
+  body: json
+  auth: none
+}
+
+body:json {
+  { "name": "Yan Zucchini Reami", "email": "yanzucchini@gmail.com", "weight": 70, "height": 1.83 }
+  
+  
+}

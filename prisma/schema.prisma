@@ -1,0 +1,58 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+// Modelo para os nossos Atletas
+// Modelo para os nossos Atletas
+// Modelo para os nossos Atletas
+model Athlete {
+  id        Int      @id @default(autoincrement())
+  email     String   @unique
+  name      String
+  height    Float?
+  weight    Float?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  // A relação agora é uma lista de planos.
+  // O Prisma vai gerenciar a tabela de junção automaticamente.
+  mealPlans MealPlan[]
+}
+
+model MealPlan {
+  id        Int       @id @default(autoincrement())
+  name      String    // Ex: "Plano de Ganho de Massa"
+  createdAt DateTime  @default(now())
+  
+  // REMOVEMOS a referência direta a um único atleta (athleteId)
+  
+  // E ADICIONAMOS uma lista de atletas que usam este plano.
+  athletes  Athlete[]
+  
+  items     FoodItem[]
+}
+
+model FoodItem {
+  id          Int      @id @default(autoincrement())
+  mealPlanId  Int
+  
+  foodId      String   // O ID do alimento vindo da API TACO
+  foodName    String   // Ex: "Arroz, integral, cozido"
+  quantity    Float    // Ex: 150
+  unit        String   // Ex: "g" (gramas)
+  mealType    String   // Ex: "Café da Manhã", "Almoço", "Jantar"
+
+  // Define a relação: Este item pertence a um MealPlan.
+  mealPlan    MealPlan @relation(fields: [mealPlanId], references: [id])
+}

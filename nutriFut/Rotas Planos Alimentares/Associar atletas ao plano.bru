@@ -1,0 +1,15 @@
+meta {
+  name: Associar atletas ao plano
+  type: http
+  seq: 3
+}
+
+post {
+  url: http://localhost:3333/api/athletes/1/plans
+  body: json
+  auth: none
+}
+
+body:json {
+  {"planId": 1}
+}

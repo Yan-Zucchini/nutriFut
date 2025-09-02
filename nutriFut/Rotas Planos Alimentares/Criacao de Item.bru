@@ -1,0 +1,21 @@
+meta {
+  name: Criacao de Item
+  type: http
+  seq: 2
+}
+
+post {
+  url: http://localhost:3333/api/plans/1/items
+  body: json
+  auth: none
+}
+
+body:json {
+  {
+    "foodId": "523",
+    "foodName": "Frango, filé, grelhado",
+    "quantity": 200,
+    "unit": "g",
+    "mealType": "Almoço"
+  }
+}
