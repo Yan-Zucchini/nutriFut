@@ -54,5 +54,5 @@ model FoodItem {
   mealType    String   // Ex: "Café da Manhã", "Almoço", "Jantar"
 
   // Define a relação: Este item pertence a um MealPlan.
-  mealPlan    MealPlan @relation(fields: [mealPlanId], references: [id])
+  mealPlan    MealPlan @relation(fields: [mealPlanId], references: [id], onDelete: Cascade)
 }

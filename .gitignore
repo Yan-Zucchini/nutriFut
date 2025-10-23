@@ -1,14 +1,45 @@
-# Dependências
-node_modules
+# Arquivo .gitignore para o projeto NutriFut
 
-# Logs
-npm-debug.log*
-yarn-debug.log*
-yarn-error.log*
-
-# Arquivos de build (se houver)
-dist
-
-# Arquivos de ambiente
+# --- Segurança (MUITO IMPORTANTE) ---
+# Nunca envie seus segredos, senhas ou chaves de API.
 .env
-/src/generated/prisma
+.env.*
+!.env.example
+
+# --- Dependências ---
+# Esta pasta é gigantesca e é recriada com 'npm install'.
+node_modules/
+
+# --- Banco de Dados ---
+# Nunca envie o arquivo do banco de dados de desenvolvimento.
+# No nosso caso, os arquivos do SQLite dentro da pasta prisma.
+prisma/*.db
+prisma/*.db-journal
+prisma/*.db-wal
+
+# --- Logs ---
+# Arquivos de log gerados por erros ou monitoramento.
+*.log
+logs/
+npm-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# --- TypeScript / Build ---
+# Arquivos gerados pela compilação do TypeScript.
+# Mesmo usando ts-node, é uma boa prática para builds de produção.
+dist/
+build/
+*.js.map
+.tsbuildinfo
+
+# --- Arquivos de Sistema Operacional ---
+# Arquivos inúteis gerados pelo macOS, Windows e Linux.
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# --- Arquivos de IDE / Editor ---
+# Pastas de configuração de editores como VSCode ou JetBrains.
+.vscode/
+.idea/

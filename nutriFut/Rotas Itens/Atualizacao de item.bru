@@ -1,0 +1,15 @@
+meta {
+  name: Atualizacao de item
+  type: http
+  seq: 1
+}
+
+put {
+  url: http://localhost:3333/api/items/1
+  body: json
+  auth: none
+}
+
+body:json {
+  { "quantity": 20 }
+}

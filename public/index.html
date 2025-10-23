@@ -1,28 +1,70 @@
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html lang="pt-br">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NutriFut - Busca de Alimentos</title>
-    </head>
+    <title>Painel de Testes - NutriFut API</title>
+    <style>
+        body { font-family: sans-serif; display: flex; gap: 20px; }
+        fieldset { border: 1px solid #ccc; padding: 10px; margin-bottom: 20px; }
+        legend { font-weight: bold; }
+        input { margin-bottom: 5px; width: 200px; }
+        button { margin-top: 5px; }
+        #results-container { flex: 1; }
+        pre { background-color: #f4f4f4; border: 1px solid #ddd; padding: 10px; white-space: pre-wrap; word-wrap: break-word; }
+    </style>
+</head>
 <body>
+    <div id="forms-container">
+        <fieldset>
+            <legend>Atletas</legend>
+            <input type="text" id="athleteId" placeholder="ID do Atleta (para Get/Update/Delete)">
+            <input type="text" id="athleteName" placeholder="Nome do Atleta">
+            <input type="email" id="athleteEmail" placeholder="Email do Atleta">
+            <input type="number" id="athleteWeight" placeholder="Peso (kg)">
+            <input type="number" id="athleteHeight" placeholder="Altura (m)">
+            <button id="btnListAthletes">Listar Atletas</button>
+            <button id="btnCreateAthlete">Criar Atleta</button>
+            <button id="btnUpdateAthlete">Atualizar Atleta</button>
+            <button id="btnDeleteAthlete">Deletar Atleta</button>
+        </fieldset>
 
-    <header>
-        <h1>NutriFut - Busca de Alimentos</h1>
-    </header>
+        <fieldset>
+            <legend>Planos Alimentares</legend>
+            <input type="text" id="planId" placeholder="ID do Plano (para Get/Delete)">
+            <input type="text" id="planName" placeholder="Nome do Plano">
+            <button id="btnListPlans">Listar Planos</button>
+            <button id="btnGetPlan">Ver Plano Detalhado</button>
+            <button id="btnCreatePlan">Criar Plano</button>
+            <button id="btnDeletePlan">Deletar Plano</button>
+        </fieldset>
+        
+        <fieldset>
+            <legend>Associar Plano a Atleta</legend>
+            <input type="text" id="assocAthleteId" placeholder="ID do Atleta">
+            <input type="text" id="assocPlanId" placeholder="ID do Plano">
+            <button id="btnAssocPlan">Associar</button>
+        </fieldset>
 
-    <main>
-        <div class="search-container">
-            <input type="text" id="searchInput" placeholder="Digite o nome do alimento...">
-            <button id="searchButton">Buscar</button>
-        </div>
+        <fieldset>
+            <legend>Itens do Plano</legend>
+            <input type="text" id="itemPlanId" placeholder="ID do Plano para adicionar item">
+            <input type="text" id="itemId" placeholder="ID do Item (para Update/Delete)">
+            <input type="text" id="itemFoodId" placeholder="ID do Alimento (TACO)">
+            <input type="text" id="itemFoodName" placeholder="Nome do Alimento">
+            <input type="number" id="itemQuantity" placeholder="Quantidade">
+            <input type="text" id="itemUnit" placeholder="Unidade (ex: g)">
+            <input type="text" id="itemMealType" placeholder="Tipo (ex: Almoço)">
+            <button id="btnCreateItem">Adicionar Item</button>
+            <button id="btnUpdateItem">Atualizar Item</button>
+            <button id="btnDeleteItem">Deletar Item</button>
+        </fieldset>
+    </div>
 
-        <hr>
-
-        <h2>Resultados:</h2>
-        <div id="resultsContainer">
-            </div>
-    </main>
+    <div id="results-container">
+        <h2>Resultados da API</h2>
+        <pre id="results">Aguardando requisição...</pre>
+    </div>
 
     <script src="app.js"></script>
 </body>

@@ -1,0 +1,26 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+// Modelo para os nossos Atletas
+model Athlete {
+  id        Int      @id @default(autoincrement()) // ID numérico, chave primária, autoincremento
+  email     String   @unique // O email de cada atleta deve ser único
+  name      String
+  height    Float? // Altura em metros (ex: 1.80). O '?' torna o campo opcional.
+  weight    Float? // Peso em kg (ex: 75.5). O '?' torna o campo opcional.
+  createdAt DateTime @default(now()) // Data de criação, preenchida automaticamente
+  updatedAt DateTime @updatedAt // Data da última atualização, preenchida automaticamente
+}

@@ -99,5 +99,65 @@ export async function planRoutes(app: FastifyInstance) {
     }
   });
 
-  
+  // Rota para ATUALIZAR um item de alimento específico de um plano
+  app.put('/api/items/:itemId', async (req, reply) => {
+    const { itemId } = req.params as { itemId: string };
+    const { quantity, unit, mealType } = req.body as {
+      quantity?: number;
+      unit?: string;
+      mealType?: string;
+    };
+
+    try {
+      const updatedItem = await prisma.foodItem.update({
+        where: { id: parseInt(itemId) },
+        data: {
+          quantity,
+          unit,
+          mealType,
+        },
+      });
+      return reply.send(updatedItem);
+    } catch (error) {
+      console.error(error);
+      return reply.status(404).send({ message: 'Erro: Item de alimento não encontrado.' });
+    }
+  });
+
+  // Rota para DELETAR um item de alimento específico de um plano
+  app.delete('/api/items/:itemId', async (req, reply) => {
+    const { itemId } = req.params as { itemId: string };
+
+    try {
+      await prisma.foodItem.delete({
+        where: { id: parseInt(itemId) },
+      });
+      return reply.status(204).send();
+    } catch (error) {
+      console.error(error);
+      return reply.status(404).send({ message: 'Erro: Item de alimento não encontrado.' });
+    }
+  });
+
+  // Rota para DELETAR um plano alimentar inteiro (e todos os seus itens)
+  app.delete('/api/plans/:planId', async (req, reply) => {
+    const { planId } = req.params as { planId: string };
+
+    try {
+      await prisma.mealPlan.delete({
+        where: { id: parseInt(planId) },
+      });
+      return reply.status(204).send();
+    } catch (error) {
+      console.error(error);
+      return reply.status(404).send({ message: 'Erro: Plano alimentar não encontrado.' });
+    }
+  });
+
+
+  app.get('/api/plans', async (req, reply) => {
+    const plans = await prisma.mealPlan.findMany();
+    return reply.send(plans);
+  });
+    
 }
