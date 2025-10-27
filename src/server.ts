@@ -7,7 +7,8 @@ import fastifyStatic from '@fastify/static';
 import { loadTacoData } from './services/tacoService.js';
 import { foodRoutes } from './routes/foodRoutes.js';
 import { athleteRoutes } from './routes/athleteRoutes.js';
-import { planRoutes } from './routes/planRoutes.js'; // <-- 1. IMPORTAR
+import { planRoutes } from './routes/planRoutes.js'; 
+import { logRoutes } from './routes/logRoutes.js'; 
 
 const app = Fastify({ logger: true });
 
@@ -22,7 +23,8 @@ app.register(fastifyStatic, {
 // --- Registrar as rotas da API ---
 app.register(foodRoutes);
 app.register(athleteRoutes);
-app.register(planRoutes); // <-- 2. REGISTRAR
+app.register(planRoutes); 
+app.register(logRoutes); 
 
 // --- Função de inicialização ---
 const start = async () => {

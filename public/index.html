@@ -12,6 +12,7 @@
         button { margin-top: 5px; }
         #results-container { flex: 1; }
         pre { background-color: #f4f4f4; border: 1px solid #ddd; padding: 10px; white-space: pre-wrap; word-wrap: break-word; }
+        hr { border: 1px solid #eee; margin: 15px 0; }
     </style>
 </head>
 <body>
@@ -58,6 +59,30 @@
             <button id="btnCreateItem">Adicionar Item</button>
             <button id="btnUpdateItem">Atualizar Item</button>
             <button id="btnDeleteItem">Deletar Item</button>
+        </fieldset>
+
+        <fieldset>
+            <legend>Diário Alimentar (Log)</legend>
+            
+            <p><strong>Adicionar Registro ao Diário:</strong></p>
+            <input type="text" id="logAthleteId" placeholder="ID do Atleta">
+            <input type="datetime-local" id="logEatenAt" title="Data e Hora">
+            <input type="text" id="logMealType" placeholder="Tipo (ex: Almoço)">
+            <input type="text" id="logFoodName" placeholder="Nome do Alimento">
+            <input type="number" id="logQuantity" placeholder="Quantidade">
+            <input type="text" id="logUnit" placeholder="Unidade (ex: g)">
+            <input type="number" id="logKcal" placeholder="Kcal (Total)">
+            <input type="number" id="logProtein" placeholder="Proteína (Total)">
+            <input type="number" id="logCarbs" placeholder="Carboidratos (Total)">
+            <input type="number" id="logLipids" placeholder="Lipídios (Total)">
+            <button id="btnCreateLog">Adicionar ao Diário</button>
+            
+            <hr>
+
+            <p><strong>Buscar Diário por Data:</strong></p>
+            <input type="text" id="logGetAthleteId" placeholder="ID do Atleta">
+            <input type="date" id="logGetDate" title="Data da Busca">
+            <button id="btnGetLog">Buscar Diário</button>
         </fieldset>
     </div>
 

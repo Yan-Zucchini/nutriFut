@@ -13,21 +13,20 @@ datasource db {
   url      = "file:./dev.db"
 }
 
-// Modelo para os nossos Atletas
-// Modelo para os nossos Atletas
-// Modelo para os nossos Atletas
-model Athlete {
-  id        Int      @id @default(autoincrement())
-  email     String   @unique
-  name      String
-  height    Float?
-  weight    Float?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+// Agora, modifique o modelo 'Athlete' que JÁ EXISTE
+// Adicione a linha 'logEntries' dentro dele:
 
-  // A relação agora é uma lista de planos.
-  // O Prisma vai gerenciar a tabela de junção automaticamente.
-  mealPlans MealPlan[]
+model Athlete {
+  id            Int      @id @default(autoincrement())
+  name          String
+  email         String   @unique
+  weightInKg    Float?
+  heightInMeters Float?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  plans         MealPlan[] // Relação com planos alimentares
+  logEntries    DailyLogEntry[] // <-- ADICIONE ESTA LINHA PARA A NOVA RELAÇÃO
 }
 
 model MealPlan {
@@ -55,4 +54,25 @@ model FoodItem {
 
   // Define a relação: Este item pertence a um MealPlan.
   mealPlan    MealPlan @relation(fields: [mealPlanId], references: [id], onDelete: Cascade)
+}
+
+model DailyLogEntry {
+  id              Int      @id @default(autoincrement())
+  createdAt       DateTime @default(now())
+  eatenAt         DateTime // O dia e hora exatos que foi comido
+  mealType        String   // "Café da Manhã", "Almoço", "Jantar", "Lanche"
+
+  foodName        String   // "Arroz, integral, cozido"
+  quantity        Float    // 150
+  unit            String   // "g"
+
+  // Os valores nutricionais calculados (pelo frontend) no momento do registro
+  kcal            Float
+  protein         Float
+  carbohydrates   Float
+  lipids          Float
+
+  // Relação: Qual atleta registrou isso?
+  athlete         Athlete  @relation(fields: [athleteId], references: [id], onDelete: Cascade)
+  athleteId       Int
 }

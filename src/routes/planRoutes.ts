@@ -30,10 +30,9 @@ export async function planRoutes(app: FastifyInstance) {
       const updatedAthlete = await prisma.athlete.update({
         where: { id: parseInt(athleteId) },
         data: {
-          mealPlans: {
-            // A mágica do Prisma para relações muitos-para-muitos
-            connect: { id: planId },
-          },
+          plans: { // <-- CORRIGIDO (para bater com o nome do schema.prisma)
+          connect: { id: planId },
+          }
         },
       });
       return reply.status(200).send(updatedAthlete);

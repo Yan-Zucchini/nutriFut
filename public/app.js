@@ -21,18 +21,23 @@ document.addEventListener('DOMContentLoaded', () => {
             if (response.status === 204) { // No content for DELETE
                 return { message: 'Operação bem-sucedida (Status 204 No Content)' };
             }
+            const data = await response.json();
             if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
+                throw data; // Joga o erro (com 'issues' do Zod) para o catch
             }
-            return await response.json();
+            return data;
         } catch (error) {
-            return { error: error.message };
+            console.error('Erro na API:', error);
+            return { 
+                error: error.message || 'Erro desconhecido', 
+                issues: error.issues || null 
+            };
         }
     };
 
     // --- Event Listeners para os Botões ---
 
-    // Atletas
+    // Atletas (PUT e DELETE agora devem funcionar!)
     document.getElementById('btnListAthletes').addEventListener('click', async () => showResult(await apiFetch('/api/athletes')));
     document.getElementById('btnCreateAthlete').addEventListener('click', async () => {
         const body = {
@@ -46,11 +51,13 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('btnUpdateAthlete').addEventListener('click', async () => {
         const id = document.getElementById('athleteId').value;
         const body = {
-            name: document.getElementById('athleteName').value,
-            email: document.getElementById('athleteEmail').value,
-            weight: parseFloat(document.getElementById('athleteWeight').value),
-            height: parseFloat(document.getElementById('athleteHeight').value)
+            name: document.getElementById('athleteName').value || undefined, // Envia undefined se vazio
+            email: document.getElementById('athleteEmail').value || undefined,
+            weight: parseFloat(document.getElementById('athleteWeight').value) || undefined,
+            height: parseFloat(document.getElementById('athleteHeight').value) || undefined
         };
+        // Filtra chaves 'undefined' para permitir updates parciais
+        Object.keys(body).forEach(key => body[key] === undefined && delete body[key]);
         showResult(await apiFetch(`/api/athletes/${id}`, 'PUT', body));
     });
     document.getElementById('btnDeleteAthlete').addEventListener('click', async () => {
@@ -104,5 +111,45 @@ document.addEventListener('DOMContentLoaded', () => {
     document.getElementById('btnDeleteItem').addEventListener('click', async () => {
         const itemId = document.getElementById('itemId').value;
         showResult(await apiFetch(`/api/items/${itemId}`, 'DELETE'));
+    });
+
+    // --- [NOVO] DIÁRIO ALIMENTAR ---
+
+    document.getElementById('btnCreateLog').addEventListener('click', async () => {
+        const athleteId = document.getElementById('logAthleteId').value;
+        if (!athleteId) {
+            showResult({ error: "ID do Atleta é obrigatório para criar um registro." });
+            return;
+        }
+
+        // Converte o datetime-local para o formato ISO (string) que o Zod espera
+        const localDateValue = document.getElementById('logEatenAt').value;
+        const isoDate = localDateValue ? new Date(localDateValue).toISOString() : new Date().toISOString();
+
+        const body = {
+            eatenAt: isoDate,
+            mealType: document.getElementById('logMealType').value,
+            foodName: document.getElementById('logFoodName').value,
+            quantity: parseFloat(document.getElementById('logQuantity').value),
+            unit: document.getElementById('logUnit').value,
+            kcal: parseFloat(document.getElementById('logKcal').value),
+            protein: parseFloat(document.getElementById('logProtein').value),
+            carbohydrates: parseFloat(document.getElementById('logCarbs').value),
+            lipids: parseFloat(document.getElementById('logLipids').value),
+        };
+        showResult(await apiFetch(`/api/athletes/${athleteId}/log`, 'POST', body));
+    });
+
+    document.getElementById('btnGetLog').addEventListener('click', async () => {
+        const athleteId = document.getElementById('logGetAthleteId').value;
+        const date = document.getElementById('logGetDate').value;
+
+        if (!athleteId || !date) {
+            showResult({ error: "ID do Atleta e Data são obrigatórios para buscar." });
+            return;
+        }
+
+        // A rota espera a data como query param
+        showResult(await apiFetch(`/api/athletes/${athleteId}/log?date=${date}`, 'GET'));
     });
 });
