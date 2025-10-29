@@ -152,4 +152,43 @@ document.addEventListener('DOMContentLoaded', () => {
         // A rota espera a data como query param
         showResult(await apiFetch(`/api/athletes/${athleteId}/log?date=${date}`, 'GET'));
     });
+
+    document.getElementById('btnUpdateLog').addEventListener('click', async () => {
+        const entryId = document.getElementById('logEntryId').value;
+        if (!entryId) {
+            showResult({ error: "ID do Registro é obrigatório para atualizar." });
+            return;
+        }
+
+        // Converte o datetime-local para o formato ISO (string)
+        const localDateValue = document.getElementById('logEatenAt').value;
+        const isoDate = localDateValue ? new Date(localDateValue).toISOString() : undefined;
+
+        // Pega todos os valores (permite atualização parcial)
+        const body = {
+            eatenAt: isoDate,
+            mealType: document.getElementById('logMealType').value || undefined,
+            foodName: document.getElementById('logFoodName').value || undefined,
+            quantity: parseFloat(document.getElementById('logQuantity').value) || undefined,
+            unit: document.getElementById('logUnit').value || undefined,
+            kcal: parseFloat(document.getElementById('logKcal').value) || undefined,
+            protein: parseFloat(document.getElementById('logProtein').value) || undefined,
+            carbohydrates: parseFloat(document.getElementById('logCarbs').value) || undefined,
+            lipids: parseFloat(document.getElementById('logLipids').value) || undefined,
+        };
+
+        // Filtra chaves 'undefined' para enviar só o que foi preenchido
+        Object.keys(body).forEach(key => body[key] === undefined && delete body[key]);
+
+        showResult(await apiFetch(`/api/log/${entryId}`, 'PUT', body));
+    });
+
+    document.getElementById('btnDeleteLog').addEventListener('click', async () => {
+        const entryId = document.getElementById('logEntryId').value;
+        if (!entryId) {
+            showResult({ error: "ID do Registro é obrigatório para deletar." });
+            return;
+        }
+        showResult(await apiFetch(`/api/log/${entryId}`, 'DELETE'));
+    });
 });

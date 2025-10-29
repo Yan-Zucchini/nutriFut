@@ -61,11 +61,15 @@
             <button id="btnDeleteItem">Deletar Item</button>
         </fieldset>
 
-        <fieldset>
+<fieldset>
             <legend>Diário Alimentar (Log)</legend>
             
-            <p><strong>Adicionar Registro ao Diário:</strong></p>
-            <input type="text" id="logAthleteId" placeholder="ID do Atleta">
+            <p><strong>Adicionar / Atualizar Registro:</strong></p>
+            <input type="text" id="logEntryId" placeholder="ID do Registro (para Update/Delete)">
+            <input type="text" id="logAthleteId" placeholder="ID do Atleta (só para Criar)">
+            
+            <hr style="margin: 10px 0;">
+
             <input type="datetime-local" id="logEatenAt" title="Data e Hora">
             <input type="text" id="logMealType" placeholder="Tipo (ex: Almoço)">
             <input type="text" id="logFoodName" placeholder="Nome do Alimento">
@@ -76,6 +80,8 @@
             <input type="number" id="logCarbs" placeholder="Carboidratos (Total)">
             <input type="number" id="logLipids" placeholder="Lipídios (Total)">
             <button id="btnCreateLog">Adicionar ao Diário</button>
+            <button id="btnUpdateLog">Atualizar Registro</button>
+            <button id="btnDeleteLog">Deletar Registro</button>
             
             <hr>
 
